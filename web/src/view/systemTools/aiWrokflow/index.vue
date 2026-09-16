@@ -1,8 +1,7 @@
 <template>
   <div class="gva-table-box ai-workflow-page space-y-4">
     <warning-bar
-      href="https://plugin.gin-vue-admin.com/license"
-      title="本功能由于算力不足限制，已调整为仅对授权用户开放。"
+      title="本功能依赖本地大模型配置。请在 config.yaml 的 autocode.ai-path 填写服务地址后再使用。"
     />
     <el-card shadow="never">
       <div class="flex flex-wrap items-start justify-between gap-4">

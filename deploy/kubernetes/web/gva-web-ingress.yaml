@@ -6,7 +6,7 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
-  - host: demo.gin-vue-admin.com
+  - host: your.domain.example
     http:
       paths:
       - path: /

@@ -132,19 +132,6 @@
               <p class="text-sm gva-theme-text-sub mb-5 leading-relaxed">
                 基于 Vue3 + Gin 的全栈开发基础平台，提供完整的后台管理解决方案
               </p>
-              <div class="flex items-center gap-3 text-sm">
-                <a href="https://github.com/flipped-aurora/gin-vue-admin" target="_blank"
-                  class="font-medium transition-colors duration-150 hover:underline"
-                  :style="{ color: config.primaryColor }">
-                  GitHub 仓库
-                </a>
-                <span class="text-gray-400 dark:text-gray-500">·</span>
-                <a href="https://www.gin-vue-admin.com/" target="_blank"
-                  class="font-medium transition-colors duration-150 hover:underline"
-                  :style="{ color: config.primaryColor }">
-                  官方文档
-                </a>
-              </div>
             </div>
           </div>
         </div>

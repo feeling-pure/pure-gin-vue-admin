@@ -1,8 +1,7 @@
 ﻿<template>
   <div class="h-full">
     <warning-bar
-        href="https://plugin.gin-vue-admin.com/license"
-        title="此功能仅在开发阶段使用，用户构建本项目内的skills技能库。"
+        title="此功能仅在开发阶段使用，用于构建本项目内的 skills 技能库。"
     />
     <el-row :gutter="12" class="h-full">
       <el-col :xs="24" :sm="8" :md="6" :lg="5" class="flex flex-col gap-4 h-full">

@@ -125,7 +125,7 @@ data:
       region: 'ap-shanghai'
       secret-id: 'xxxxxxxx'
       secret-key: 'xxxxxxxx'
-      base-url: 'https://gin.vue.admin'
+      base-url: 'https://example.com'
       path-prefix: 'github.com/flipped-aurora/gin-vue-admin/server'
 
     # excel configuration

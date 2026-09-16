@@ -3,7 +3,7 @@
     class="bg-gray-50 text-slate-700 dark:text-slate-500 dark:bg-slate-800 w-screen h-screen"
   >
     <iframe
-        v-if="reloadFlag"
+        v-if="reloadFlag && url"
         id="gva-base-load-dom"
         class="gva-body-h bg-gray-50 dark:bg-slate-800 w-full border-t border-gray-200 dark:border-slate-700"
         :src="url"
@@ -39,7 +39,7 @@
   const router = useRouter()
   const route = useRoute()
 
-  const url = route.query.url || 'https://www.gin-vue-admin.com'
+  const url = route.query.url || ''
 
   onMounted(() => {
     // 挂载一些通用的事件

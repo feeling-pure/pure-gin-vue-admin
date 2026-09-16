@@ -23,13 +23,7 @@
             1.您需有用一定的VUE和GOLANG基础
           </p>
           <p class="text-gray-600 dark:text-gray-300 mb-2">
-            2.请您确认是否已经阅读过官方文档
-            <a
-              class="text-blue-600 font-bold"
-              href="https://www.bilibili.com/video/BV1kv4y1g7nT?p=2"
-              target="_blank"
-              >初始化视频</a
-            >
+            2.请您确认是否已经了解初始化与后续配置流程
           </p>
           <p class="text-gray-600 dark:text-gray-300 mb-2">
             3.请您确认是否了解后续的配置流程

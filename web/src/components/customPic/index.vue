@@ -1,12 +1,10 @@
 <template>
   <span class="headerAvatar">
     <template v-if="picType === 'avatar'">
-      <el-avatar v-if="userStore.userInfo.headerImg" :size="30" :src="avatar" />
-      <el-avatar v-else :size="30" :src="noAvatar" />
+      <el-avatar :size="30" :src="displaySrc" />
     </template>
     <template v-if="picType === 'img'">
-      <img v-if="userStore.userInfo.headerImg" :src="avatar" class="avatar" />
-      <img v-else :src="noAvatar" class="avatar" />
+      <img :src="displaySrc" class="avatar" />
     </template>
     <template v-if="picType === 'file'">
       <el-image
@@ -20,7 +18,6 @@
 </template>
 
 <script setup>
-  import noAvatarPng from '@/assets/noBody.png'
   import { useUserStore } from '@/pinia/modules/user'
   import { computed, ref } from 'vue'
 
@@ -37,7 +34,7 @@
     picSrc: {
       type: String,
       required: false,
-      default: ''
+      default: undefined
     },
     preview: {
       type: Boolean,
@@ -46,28 +43,32 @@
   })
 
   const path = ref(import.meta.env.VITE_BASE_API + '/')
-  const noAvatar = ref(noAvatarPng)
+  const noAvatar = '/avatar.png'
 
   const userStore = useUserStore()
 
-  const avatar = computed(() => {
-    if (props.picSrc === '') {
-      if (
-        userStore.userInfo.headerImg !== '' &&
-        userStore.userInfo.headerImg.slice(0, 4) === 'http'
-      ) {
-        return userStore.userInfo.headerImg
-      }
-      return path.value + userStore.userInfo.headerImg
-    } else {
-      if (props.picSrc !== '' && props.picSrc.slice(0, 4) === 'http') {
-        return props.picSrc
-      }
-      return path.value + props.picSrc
+  const resolveSrc = (src) => {
+    if (!src) {
+      return noAvatar
     }
+    if (
+      src.startsWith('http://') ||
+      src.startsWith('https://') ||
+      src.startsWith('/')
+    ) {
+      return src
+    }
+    return path.value + src
+  }
+
+  const displaySrc = computed(() => {
+    const raw =
+      props.picSrc !== undefined ? props.picSrc : userStore.userInfo.headerImg
+    return resolveSrc(raw)
   })
+
   const file = computed(() => {
-    if (props.picSrc && props.picSrc.slice(0, 4) !== 'http') {
+    if (props.picSrc && !props.picSrc.startsWith('http')) {
       return path.value + props.picSrc
     }
     return props.picSrc

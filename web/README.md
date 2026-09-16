@@ -80,7 +80,6 @@ web
  │   │   ├── request.js         -- 请求
  │   │   └── stringFun.js       -- 字符串文件
  |   ├── view -- 主要view代码
- |   |   ├── about -- 关于我们
  |   |   ├── dashboard -- 面板
  |   |   ├── error -- 错误
  |   |   ├── example --上传案例

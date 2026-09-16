@@ -59,18 +59,18 @@ func (i *initUser) InitializeData(ctx context.Context) (next context.Context, er
 			UUID:        uuid.New(),
 			Username:    "admin",
 			Password:    adminPassword,
-			NickName:    "Mr.奇淼",
-			HeaderImg:   "https://qmplusimg.henrongyi.top/gva_header.jpg",
+			NickName:    "管理员",
+			HeaderImg:   "/avatar.png",
 			AuthorityId: 888,
 			Phone:       "17611111111",
 			Email:       "333333333@qq.com",
 		},
 		{
 			UUID:        uuid.New(),
-			Username:    "a303176530",
+			Username:    "user",
 			Password:    password,
 			NickName:    "用户1",
-			HeaderImg:   "https://qmplusimg.henrongyi.top/1572075907logo.png",
+			HeaderImg:   "/avatar.png",
 			AuthorityId: 9528,
 			Phone:       "17611111111",
 			Email:       "333333333@qq.com"},
@@ -98,7 +98,7 @@ func (i *initUser) DataInserted(ctx context.Context) bool {
 		return false
 	}
 	var record sysModel.SysUser
-	if errors.Is(db.Where("username = ?", "a303176530").
+	if errors.Is(db.Where("username = ?", "user").
 		Preload("Authorities").First(&record).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
 		return false
 	}

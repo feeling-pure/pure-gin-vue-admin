@@ -10,9 +10,9 @@ test('opens external links in an isolated browser tab', () => {
   }
 
   try {
-    toDoc('https://vip.gin-vue-admin.com')
+    toDoc('https://example.com')
     assert.deepEqual(calls, [
-      ['https://vip.gin-vue-admin.com', '_blank', 'noopener,noreferrer']
+      ['https://example.com', '_blank', 'noopener,noreferrer']
     ])
   } finally {
     delete globalThis.window

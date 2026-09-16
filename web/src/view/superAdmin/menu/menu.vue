@@ -461,13 +461,12 @@
               新增可控按钮
             </el-button>
             <el-tooltip
-              content="点击查看按钮权限配置文档"
+              content="在菜单中配置可控按钮后，可在角色管理里分配对应按钮权限。"
               placement="top"
               effect="light"
             >
               <el-icon
-                class="cursor-pointer text-blue-500 hover:text-blue-700"
-                @click="toDoc('https://www.gin-vue-admin.com/guide/web/button-auth.html')"
+                class="text-blue-500"
               >
                 <QuestionFilled />
               </el-icon>
@@ -565,7 +564,6 @@
   import { reactive, ref, nextTick } from 'vue'
   import { ElMessage, ElMessageBox } from 'element-plus'
   import { QuestionFilled, InfoFilled, Delete } from '@element-plus/icons-vue'
-  import { toDoc } from '@/utils/doc'
   import { toLowerCase } from '@/utils/stringFun'
   import ComponentsCascader from '@/view/superAdmin/menu/components/components-cascader.vue'
 

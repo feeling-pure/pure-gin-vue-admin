@@ -99,7 +99,7 @@ captcha:
     open-captcha-timeout: 3600 # open-captcha大于0时才生效
 
 # mysql connect configuration
-# 未初始化之前请勿手动修改数据库信息！！！如果一定要手动初始化请看（https://gin-vue-admin.com/docs/first_master）
+# 未初始化之前请勿手动修改数据库信息！！！
 mysql:
     path: ""
     port: ""
@@ -114,7 +114,7 @@ mysql:
     log-zap: false
 
 # pgsql connect configuration
-# 未初始化之前请勿手动修改数据库信息！！！如果一定要手动初始化请看（https://gin-vue-admin.com/docs/first_master）
+# 未初始化之前请勿手动修改数据库信息！！！
 pgsql:
     path: ""
     port: ""
@@ -227,7 +227,7 @@ tencent-cos:
     region: ap-shanghai
     secret-id: your-secret-id
     secret-key: your-secret-key
-    base-url: https://gin.vue.admin
+    base-url: https://example.com
     path-prefix: github.com/flipped-aurora/gin-vue-admin/server
 
 # aws s3 configuration (minio compatible)
@@ -239,13 +239,13 @@ aws-s3:
     disable-ssl: false
     secret-id: your-secret-id
     secret-key: your-secret-key
-    base-url: https://gin.vue.admin
+    base-url: https://example.com
     path-prefix: github.com/flipped-aurora/gin-vue-admin/server
 
 # cloudflare r2 configuration
 cloudflare-r2:
     bucket: xxxx0bucket
-    base-url: https://gin.vue.admin.com
+    base-url: https://example.com
     path: uploads
     account-id: xxx_account_id
     access-key-id: xxx_key_id

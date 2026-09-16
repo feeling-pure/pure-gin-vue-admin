@@ -6,7 +6,6 @@
       @click="handleReload"
     />
     <Screenfull class="search-icon" />
-    <div class="gvaIcon gvaIcon-customer-service" @click="toService" />
     <el-switch
       v-model="isDark"
       :active-action-icon="Moon"
@@ -43,9 +42,6 @@
     setTimeout(() => {
       reload.value = false
     }, 500)
-  }
-  const toService = () => {
-    window.open('https://support.qq.com/product/371961')
   }
 
   const handleDarkSwitch = (e) => {
