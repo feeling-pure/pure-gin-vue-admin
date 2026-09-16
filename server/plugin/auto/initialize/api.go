@@ -67,7 +67,6 @@ func Api(ctx context.Context) {
 		{Path: "/skills/getGlobalConstraint", Description: "获取全局约束", ApiGroup: "skills", Method: "POST"},
 		{Path: "/skills/saveGlobalConstraint", Description: "保存全局约束", ApiGroup: "skills", Method: "POST"},
 		{Path: "/skills/packageSkill", Description: "打包技能", ApiGroup: "skills", Method: "POST"},
-		{Path: "/skills/downloadOnlineSkill", Description: "下载在线技能", ApiGroup: "skills", Method: "POST"},
 	}
 	utils.RegisterApis(entities...)
 }

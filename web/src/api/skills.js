@@ -159,11 +159,3 @@ export const packageSkill = (data) => {
     responseType: 'blob'
   })
 }
-
-export const downloadOnlineSkill = (data) => {
-  return service({
-    url: '/skills/downloadOnlineSkill',
-    method: 'post',
-    data
-  })
-}

@@ -72,9 +72,3 @@ type SkillGlobalConstraintSaveRequest struct {
 	Content   string   `json:"content"`
 	SyncTools []string `json:"syncTools"`
 }
-
-type DownloadOnlineSkillReq struct {
-	Tool    string `json:"tool" binding:"required"`
-	ID      uint   `json:"id" binding:"required"`
-	Version string `json:"version" binding:"required"`
-}

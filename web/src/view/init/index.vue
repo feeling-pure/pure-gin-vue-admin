@@ -23,12 +23,7 @@
             1.您需有用一定的VUE和GOLANG基础
           </p>
           <p class="text-gray-600 dark:text-gray-300 mb-2">
-            2.请您确认是否已经阅读过<a
-              class="text-blue-600 font-bold"
-              href="https://www.gin-vue-admin.com"
-              target="_blank"
-              >官方文档</a
-            >
+            2.请您确认是否已经阅读过官方文档
             <a
               class="text-blue-600 font-bold"
               href="https://www.bilibili.com/video/BV1kv4y1g7nT?p=2"
@@ -48,10 +43,7 @@
           <p class="text-gray-600 dark:text-gray-300 mb-2">
             注：开发组不为文档中书写过的内容提供无偿服务
           </p>
-          <p class="flex items-center justify-between mt-8">
-            <el-button type="primary" size="large" @click="goDoc">
-              阅读文档
-            </el-button>
+          <p class="flex items-center justify-end mt-8">
             <el-button type="primary" size="large" @click="showNext">
               我已确认
             </el-button>
@@ -136,7 +128,7 @@
   // @ts-ignore
   import { initDB } from '@/api/initdb'
   import { reactive, ref } from 'vue'
-  import { ElLoading, ElMessage, ElMessageBox } from 'element-plus'
+  import { ElLoading, ElMessage } from 'element-plus'
   import { useRouter } from 'vue-router'
 
   defineOptions({
@@ -155,10 +147,6 @@
     setTimeout(() => {
       page.showForm = true
     }, 20)
-  }
-
-  const goDoc = () => {
-    window.open('https://www.gin-vue-admin.com/guide/start-quickly/env.html')
   }
 
   const out = ref(false)
@@ -274,25 +262,9 @@
           type: 'success',
           message: res.msg
         })
-        
-        // 显示AI助手配置提示弹窗
-        ElMessageBox.confirm(
-          '已经完成基础数据库初始化！建议先进行编辑器AI助手配置，以获得更好的开发体验。',
-          '配置完成',
-          {
-            confirmButtonText: '查看AI配置文档',
-            cancelButtonText: '稍后配置',
-            type: 'success',
-            center: true
-          }
-        ).then(() => {
-          // 点击确认按钮，打开AI配置文档
-          window.open('https://www.gin-vue-admin.com/guide/server/mcp.html', '_blank')
-          router.push({ name: 'Login' })
-        }).catch(() => {
-          // 点击取消按钮或关闭弹窗，直接跳转到登录页
-          router.push({ name: 'Login' })
-        })
+
+        // 初始化完成后进入登录页
+        router.push({ name: 'Login' })
       }
       loading.close()
     } catch (_) {

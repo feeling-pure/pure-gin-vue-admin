@@ -246,18 +246,3 @@ func (s *SkillsApi) PackageSkill(c *gin.Context) {
 	c.Header("Content-Disposition", "attachment; filename=\""+fileName+"\"")
 	c.Data(http.StatusOK, "application/zip", data)
 }
-
-func (s *SkillsApi) DownloadOnlineSkill(c *gin.Context) {
-	var req request.DownloadOnlineSkillReq
-	if err := c.ShouldBindJSON(&req); err != nil {
-		response.FailWithMessage("参数错误", c)
-		return
-	}
-
-	if err := skillsService.DownloadOnlineSkill(c.Request.Context(), req); err != nil {
-		global.GVA_LOG.Error("下载在线技能失败", zap.Error(err))
-		response.FailWithMessage("下载在线技能失败: "+err.Error(), c)
-		return
-	}
-	response.OkWithMessage("下载成功", c)
-}

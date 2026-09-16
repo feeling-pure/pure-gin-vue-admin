@@ -35,7 +35,6 @@
           <div class="flex justify-between items-center mb-2">
             <span class="font-bold">Skills</span>
             <div class="flex gap-1">
-              <el-button type="primary" link icon="Download" @click="openOnlineDrawer">在线</el-button>
               <el-button type="primary" link icon="Plus" @click="openCreateDialog">新增</el-button>
             </div>
           </div>
@@ -393,28 +392,6 @@
       </template>
     </el-dialog>
 
-    <el-dialog v-model="downloadTargetDialogVisible" title="选择下载目标" width="420px">
-      <el-form label-width="90px">
-        <el-form-item label="下载到">
-          <el-select v-model="downloadTarget" placeholder="请选择工具" class="w-full">
-            <el-option
-              v-for="item in downloadTargetOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-        <div class="text-xs text-gray-500">
-          可下载到单个 AI 工具，也可选择“全部工具”。
-        </div>
-      </el-form>
-      <template #footer>
-        <el-button @click="closeDownloadTargetDialog">取消</el-button>
-        <el-button type="primary" @click="confirmDownloadSkill">开始下载</el-button>
-      </template>
-    </el-dialog>
-
     <el-drawer v-model="editorVisible" size="70%" destroy-on-close :with-header="false">
       <div class="h-full flex flex-col p-4">
         <div class="flex justify-between items-center mb-4">
@@ -436,86 +413,6 @@
             :options="{ showPrintMargin: false, fontSize: 14 }"
           />
         </div>
-      </div>
-    </el-drawer>
-
-    <!-- 在线 Skills 抽屉 -->
-    <el-drawer
-      v-model="onlineDrawerVisible"
-      size="90%"
-      :show-close="false"
-      destroy-on-close
-    >
-      <template #header>
-        <div class="flex justify-between items-center">
-          <span class="text-lg">在线 Skills</span>
-          <el-button @click="onlineDrawerVisible = false">关 闭</el-button>
-        </div>
-      </template>
-      <div class="mb-4">
-        <el-form :inline="true" :model="onlineSearchInfo">
-          <el-form-item label="名称">
-            <el-input v-model="onlineSearchInfo.name" placeholder="搜索技能名称" clearable @keyup.enter="searchOnlineSkills" />
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" icon="Search" @click="searchOnlineSkills">查 询</el-button>
-            <el-button icon="Refresh" @click="resetOnlineSearch">重 置</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
-      <el-table v-loading="onlineLoading" :data="onlineSkillList" stripe>
-        <el-table-column label="封面" width="80">
-          <template #default="{ row }">
-            <el-image
-              v-if="row.picture"
-              :src="row.picture"
-              style="width: 50px; height: 50px"
-              fit="cover"
-              class="rounded"
-            />
-          </template>
-        </el-table-column>
-        <el-table-column label="名称" prop="name" min-width="160" show-overflow-tooltip>
-          <template #default="{ row }">
-            <a
-              class="text-blue-500 hover:text-blue-700 cursor-pointer"
-              :href="`https://plugin.gin-vue-admin.com/details/${row.ID}`"
-              target="_blank"
-            >{{ row.name }}</a>
-          </template>
-        </el-table-column>
-        <el-table-column label="简介" prop="resume" min-width="240" show-overflow-tooltip />
-        <el-table-column label="版本" prop="actVersion" width="100" />
-        <el-table-column label="下载量" prop="downloadCount" width="90" />
-        <el-table-column label="操作" width="120" fixed="right">
-          <template #default="{ row }">
-            <el-button
-              v-if="row.money === 0"
-              type="primary"
-              link
-              icon="Download"
-              :loading="downloadingIds.has(row.ID)"
-              @click="handleDownloadSkill(row)"
-            >下载</el-button>
-            <a
-              v-else
-              class="text-blue-500 hover:text-blue-700 text-sm"
-              :href="`https://plugin.gin-vue-admin.com/details/${row.ID}`"
-              target="_blank"
-            >去购买</a>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="flex justify-center mt-4">
-        <el-pagination
-          :current-page="onlineSearchInfo.page"
-          :page-size="onlineSearchInfo.pageSize"
-          :page-sizes="[10, 20, 50]"
-          :total="onlineTotal"
-          layout="total, sizes, prev, pager, next"
-          @current-change="handleOnlinePageChange"
-          @size-change="handleOnlineSizeChange"
-        />
       </div>
     </el-drawer>
   </div>
@@ -546,10 +443,8 @@
     saveSkillTemplate,
     getGlobalConstraint,
     saveGlobalConstraint,
-    packageSkill,
-    downloadOnlineSkill
+    packageSkill
   } from '@/api/skills'
-  import { getShopPluginList } from '@/api/plugin/api'
   import { VAceEditor } from 'vue3-ace-editor'
   import 'ace-builds/src-noconflict/mode-javascript'
   import 'ace-builds/src-noconflict/mode-python'
@@ -1281,180 +1176,6 @@
 
   function skillsFilesToRows(list) {
     return (list || []).map((name) => ({ name }))
-  }
-
-  // ===== 在线 Skills =====
-  const onlineDrawerVisible = ref(false)
-  const onlineSkillList = ref([])
-  const onlineTotal = ref(0)
-  const onlineSearchInfo = reactive({ page: 1, pageSize: 10, name: '' })
-  const onlineLoading = ref(false)
-  const downloadingIds = reactive(new Set())
-  const downloadTargetDialogVisible = ref(false)
-  const downloadTarget = ref('')
-  const downloadRow = ref(null)
-
-  const ALL_TOOLS_DOWNLOAD_TARGET = '__all__'
-
-  const downloadTargetOptions = computed(() => {
-    const options = tools.value.map((item) => ({
-      label: item.label || item.key,
-      value: item.key
-    }))
-    options.push({
-      label: '全部工具',
-      value: ALL_TOOLS_DOWNLOAD_TARGET
-    })
-    return options
-  })
-
-  const pluginMarketLoginURL = 'https://plugin.gin-vue-admin.com'
-
-  const isPluginMarketAuthError = (message) => {
-    const msg = (message || '').toString()
-    return msg.includes('插件市场登录') || msg.includes('401')
-  }
-
-  const promptPluginMarketLogin = async () => {
-    try {
-      await ElMessageBox.confirm('请先登录插件市场后再下载技能，是否现在前往登录？', '提示', {
-        confirmButtonText: '前往插件市场',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-      window.open(pluginMarketLoginURL, '_blank')
-    } catch (e) {
-      // 用户取消时不需要额外提示
-    }
-  }
-
-  const openOnlineDrawer = () => {
-    onlineSearchInfo.page = 1
-    onlineSearchInfo.pageSize = 10
-    onlineSearchInfo.name = ''
-    onlineDrawerVisible.value = true
-    getOnlineSkills()
-  }
-
-  const getOnlineSkills = async () => {
-    onlineLoading.value = true
-    const res = await getShopPluginList({
-      page: onlineSearchInfo.page,
-      pageSize: onlineSearchInfo.pageSize,
-      category: 6,
-      name: onlineSearchInfo.name || undefined,
-      updateTime: 1
-    })
-    if (res.code === 0) {
-      onlineSkillList.value = res.data.list
-      onlineTotal.value = res.data.total
-    }
-    onlineLoading.value = false
-  }
-
-  const searchOnlineSkills = () => {
-    onlineSearchInfo.page = 1
-    getOnlineSkills()
-  }
-
-  const resetOnlineSearch = () => {
-    onlineSearchInfo.name = ''
-    onlineSearchInfo.page = 1
-    getOnlineSkills()
-  }
-
-  const handleOnlinePageChange = (page) => {
-    onlineSearchInfo.page = page
-    getOnlineSkills()
-  }
-
-  const handleOnlineSizeChange = (size) => {
-    onlineSearchInfo.pageSize = size
-    onlineSearchInfo.page = 1
-    getOnlineSkills()
-  }
-
-  const getToolLabel = (key) => {
-    return tools.value.find((item) => item.key === key)?.label || key
-  }
-
-  const closeDownloadTargetDialog = () => {
-    downloadTargetDialogVisible.value = false
-    downloadRow.value = null
-  }
-
-  const handleDownloadSkill = (row) => {
-    downloadRow.value = row
-    downloadTarget.value = activeTool.value || tools.value[0]?.key || ''
-    downloadTargetDialogVisible.value = true
-  }
-
-  const confirmDownloadSkill = async () => {
-    if (!downloadRow.value) {
-      ElMessage.warning('未找到待下载技能')
-      return
-    }
-    const targetTools = downloadTarget.value === ALL_TOOLS_DOWNLOAD_TARGET
-      ? tools.value.map((item) => item.key).filter(Boolean)
-      : [downloadTarget.value].filter(Boolean)
-    if (!targetTools.length) {
-      ElMessage.warning('请选择下载目标')
-      return
-    }
-
-    const row = downloadRow.value
-    closeDownloadTargetDialog()
-    downloadingIds.add(row.ID)
-    const successTools = []
-    const failedTools = []
-    try {
-      for (const tool of targetTools) {
-        try {
-          const res = await downloadOnlineSkill({ tool, id: row.ID, version: row.actVersion })
-          if (res.code === 0) {
-            successTools.push(tool)
-            continue
-          }
-          if (isPluginMarketAuthError(res.msg)) {
-            await promptPluginMarketLogin()
-            return
-          }
-          failedTools.push(`${getToolLabel(tool)}: ${res.msg || '下载失败'}`)
-        } catch (e) {
-          const msg = e?.response?.data?.msg || e?.message || ''
-          if (e?.response?.status === 401 || isPluginMarketAuthError(msg)) {
-            await promptPluginMarketLogin()
-            return
-          }
-          failedTools.push(`${getToolLabel(tool)}: 下载失败`)
-        }
-      }
-
-      if (successTools.includes(activeTool.value)) {
-        await loadSkills()
-      }
-
-      if (failedTools.length === 0) {
-        const successLabels = successTools.map((tool) => getToolLabel(tool)).join('、')
-        ElMessage({
-          type: 'success',
-          message: targetTools.length > 1 ? `${row.name} 已下载到：${successLabels}` : `${row.name} 下载成功`
-        })
-        return
-      }
-
-      if (successTools.length === 0) {
-        ElMessage({ type: 'error', message: failedTools[0] || '下载失败，请重试' })
-        return
-      }
-      const successLabels = successTools.map((tool) => getToolLabel(tool)).join('、')
-      ElMessage({
-        type: 'warning',
-        message: `${row.name} 部分下载成功。成功：${successLabels}；失败：${failedTools.join('；')}`
-      })
-    } finally {
-      downloadingIds.delete(row.ID)
-    }
   }
 </script>
 

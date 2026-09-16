@@ -3,7 +3,6 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 import 'uno.css'
 import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
-import { setupVueRootValidator } from 'vite-check-multiple-dom/client';
 
 import 'element-plus/dist/index.css'
 // 引入gin-vue-admin前端初始化相关内容
@@ -21,10 +20,6 @@ import '@/core/error-handel'
 const app = createApp(App)
 
 app.config.productionTip = false
-
-setupVueRootValidator(app, {
-    lang: 'zh'
-  })
 
 app
   .use(run)

@@ -1,22 +1,16 @@
 import { viteLogo } from './src/core/config'
-import Banner from 'vite-plugin-banner'
 import * as path from 'path'
 import { loadEnv } from 'vite'
 import vuePlugin from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import VueFilePathPlugin from './vitePlugin/componentName/index.js'
-import { svgBuilder } from 'vite-auto-import-svg'
-import vueRootValidator from 'vite-check-multiple-dom'
-import { AddSecret } from './vitePlugin/secret'
+import { svgBuilder } from './vitePlugin/svgBuilder/index.js'
 import UnoCSS from '@unocss/vite'
 
 // @see https://cn.vitejs.dev/config/
 export default ({ mode }) => {
-  AddSecret('')
   const env = loadEnv(mode, process.cwd())
   viteLogo(env)
-
-  const timestamp = Date.parse(new Date())
 
   const alias = {
     '@': path.resolve(import.meta.dirname, './src'),
@@ -54,13 +48,6 @@ export default ({ mode }) => {
           changeOrigin: true,
           rewrite: (path) =>
             path.replace(new RegExp('^' + env.VITE_BASE_API), '')
-        },
-        '/plugin': {
-          // 需要代理的路径   例如 '/api'
-          target: `https://plugin.gin-vue-admin.com/api/`, // 代理到 目标路径
-          changeOrigin: true,
-          rewrite: (path) =>
-            path.replace(new RegExp('^/plugin'), '')
         }
       }
     },
@@ -71,9 +58,9 @@ export default ({ mode }) => {
       target: 'es2015',
       rolldownOptions: {
         output: {
-          entryFileNames: 'assets/087AC4D233B64EB0[name].[hash].js',
-          chunkFileNames: 'assets/087AC4D233B64EB0[name].[hash].js',
-          assetFileNames: 'assets/087AC4D233B64EB0[name].[hash].[ext]'
+          entryFileNames: 'assets/[name].[hash].js',
+          chunkFileNames: 'assets/[name].[hash].js',
+          assetFileNames: 'assets/[name].[hash].[ext]'
         }
       }
     },
@@ -81,11 +68,9 @@ export default ({ mode }) => {
       env.VITE_POSITION === 'open' &&
       vueDevTools({ launchEditor: env.VITE_EDITOR }),
       vuePlugin(),
-      svgBuilder(['./src/plugin/', './src/assets/icons/'], base, outDir, 'assets', mode),
-      [Banner(`\n Build based on gin-vue-admin \n Time : ${timestamp}`)],
+      svgBuilder(['./src/plugin/', './src/assets/icons/']),
       VueFilePathPlugin('./src/pathInfo.json'),
-      UnoCSS(),
-      vueRootValidator()
+      UnoCSS()
     ]
   }
   return config
