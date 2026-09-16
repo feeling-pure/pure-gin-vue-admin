@@ -92,9 +92,14 @@ export default class ImageCompress {
 }
 
 const path = import.meta.env.VITE_FILE_API
+
+/** 站点根路径静态资源（如 public/avatar.png），不走 VITE_FILE_API 代理 */
+const isFrontendPublicPath = (url) =>
+  url.startsWith('/') && !url.startsWith('/uploads')
+
 export const getUrl = (url) => {
   if (url && url.slice(0, 4) !== 'http') {
-    if (path === '/') {
+    if (path === '/' || isFrontendPublicPath(url)) {
       return url
     }
     if (url.slice(0, 1) === '/') {
