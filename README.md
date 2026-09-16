@@ -6,7 +6,7 @@
 
 ## 项目介绍
 
-pure-gin-vue-admin 跟踪 gin-vue-admin 上游，在保留原有框架功能的前提下，针对构建安全做了优化，提供一个纯净的 Vue + Gin 技术栈 Web 框架。
+pure-gin-vue-admin 跟踪 [gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin) 上游，在保留原有框架功能的前提下，针对构建安全做了优化，提供一个纯净的 Vue + Gin 技术栈 Web 框架。
 
 集成 JWT 鉴权、动态路由、动态菜单、Casbin 权限、表单生成器和代码生成器，方便把时间放在业务开发上。
 
@@ -37,7 +37,7 @@ go run .
 
 默认地址：http://127.0.0.1:8888
 
-Swagger：http://127.0.0.1:8888/swagger/index.html（需要更新文档时，在 `server/` 执行 `swag init`）
+Swagger：http://127.0.0.1:8888/swagger/index.html （需要更新文档时，在 `server/` 执行 `swag init`）
 
 ### 前端
 

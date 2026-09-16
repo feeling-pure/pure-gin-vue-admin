@@ -6,7 +6,7 @@
 
 ## Project Introduction
 
-pure-gin-vue-admin tracks gin-vue-admin upstream. While keeping the original framework features, it applies build-security optimizations and provides a clean Vue + Gin web stack.
+pure-gin-vue-admin tracks [gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin) upstream. While keeping the original framework features, it applies build-security optimizations and provides a clean Vue + Gin web stack.
 
 It includes JWT authentication, dynamic routing, dynamic menus, Casbin authorization, a form builder, and a code generator so you can spend more time on business features.
 

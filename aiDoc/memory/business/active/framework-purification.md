@@ -24,7 +24,7 @@
 - 模块：前端构建、仪表盘、插件系统菜单、Skills 在线下载注册
 - 接口：已去掉店铺插件列表前端调用、`downloadOnlineSkill` 注册；本地 `/autoCode/installPlugin` 仍保留
 - 页面：仪表盘不再展示插件市场 banner/表格；菜单不再出现外链「插件市场」「官方网站」「关于我们」
-- 配置：Vite 插件列表、产物文件名、`/plugin` 代理、`package.json` 依赖
+- 配置：Vite 插件列表、产物文件名、`/plugin` 代理、`package.json` 依赖、`web/index.html` 加载页 SEO/水印
 
 ## 已确认约束
 
@@ -45,6 +45,7 @@
 - 已卸载 `vite-check-multiple-dom`，删除 `web/vitePlugin/secret/`（`AddSecret`）
 - 已卸载 `vite-plugin-banner`，并清掉对应 `.pnpm` 空残留
 - `web/vite.config.js` 产物文件名已改为 `assets/[name].[hash].[ext]`
+- `web/index.html` keywords 改为中性技术栈词；加载色变量改为 `--loader-color`；加载容器改为 `#app-loading-box`（`permission.js` 同步）
 
 ### 插件中心
 
@@ -61,10 +62,12 @@
 - 去掉仓库内非必要的远程入口、外链配置和出网依赖
 - 页面与菜单不再指向上游文档、社区、商店或官网；缺省地址改为本地或占位
 - 演示数据、默认账号与展示用文案改为中性内容
+- **标记持续关注**：GVA 维护者相关的 `github.com/songzhibin97/gkit` 目前仅用于 `cache/local_cache`（进程内 JWT 黑名单），目前暂无伪装遥测代码，后续需要持续关注
 
 ## 后续待办
 
 - 未使用的 `vite-plugin-importer` / `install` / `npm` / `path` 依赖尚未处理
+- 持续关注 `github.com/songzhibin97/gkit` 是否出现伪装遥测或出网行为
 
 ## 更新规则
 

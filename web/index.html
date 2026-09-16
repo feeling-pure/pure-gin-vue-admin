@@ -4,10 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta
-      content="Gin,Vue,Admin.Gin-Vue-Admin,GVA,gin-vue-admin,后台管理框架,vue后台管理框架,gin-vue-admin文档,gin-vue-admin首页,gin-vue-admin"
-      name="keywords"
-    />
+    <meta content="Vue,Vite,Gin,后台管理" name="keywords" />
     <link rel="icon" href="/favicon.ico" />
     <title></title>
     <style>
@@ -19,9 +16,9 @@
       }
       body {
         margin: 0;
-        --64f90c3645474bd5: #409eff;
+        --loader-color: #409eff;
       }
-      #gva-loading-box {
+      #app-loading-box {
         position: relative;
         display: flex;
         align-items: center;
@@ -54,7 +51,7 @@
       #box {
         width: 50px;
         height: 50px;
-        background: var(--64f90c3645474bd5);
+        background: var(--loader-color);
         animation: animate 0.5s linear infinite;
         position: absolute;
         top: 0;
@@ -102,7 +99,7 @@
   </head>
 
   <body>
-    <div id="gva-loading-box">
+    <div id="app-loading-box">
       <div id="loading">
         <div id="shadow"></div>
         <div id="box"></div>

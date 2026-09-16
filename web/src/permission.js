@@ -147,7 +147,7 @@ const setupRouter = async (userStore) => {
 
 // 移除加载动画
 const removeLoading = () => {
-  const element = document.getElementById('gva-loading-box')
+  const element = document.getElementById('app-loading-box')
   element?.remove()
 }
 
