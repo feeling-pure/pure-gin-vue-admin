@@ -37,10 +37,10 @@
   }
 
   .gva-container {
-    height: calc(100% - 2.5rem);
+    height: calc(100% - 0.5rem);
   }
 
   .gva-container2 {
-    height: calc(100% - 4.5rem);
+    height: calc(100% - 3rem);
   }
 </style>
